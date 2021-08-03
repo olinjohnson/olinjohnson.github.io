@@ -1,0 +1,22 @@
+body {
+    background-color:rgb(214, 214, 214);
+    font-family: 'Roboto', sans-serif;
+}
+div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h1 {
+    font-size:6rem;
+    color:rgb(34, 96, 212);
+}
+a {
+    margin-right:30px;
+    text-decoration:none;
+    color:black;
+    font-size:2rem;
+}
+a:hover {
+    color:rgb(34, 96, 212);
+}
