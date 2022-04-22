@@ -12,8 +12,20 @@
     text-transform: lowercase;
 }
 
+.main-nav ul {
+    list-style: none;
+}
 .main-nav li::marker {
-    content: "\005B";
+    display:none;
+    content:"";
+}
+.main-nav li::-webkit-details-marker {
+    display: none;
+    content:"";
+}
+.main-nav li::before {
+    content: "[";
+    color:var(--bright-bg);
 }
 .main-nav li::after {
     content: "]";
