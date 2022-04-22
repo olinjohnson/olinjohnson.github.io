@@ -13,7 +13,7 @@
 }
 
 .main-nav li::marker {
-    content: "[";
+    content: "\005B";
 }
 .main-nav li::after {
     content: "]";
