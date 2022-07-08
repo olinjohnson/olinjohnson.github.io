@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://olinjohnson.github.io/sitemap.xml

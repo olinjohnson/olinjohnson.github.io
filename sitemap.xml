@@ -2,14 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://olinjohnson.github.io/posts/first/</loc>
+    <lastmod>2022-04-08T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://olinjohnson.github.io/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url><url>
-    <loc>https://olinjohnson.github.io/post/first/</loc>
-    <lastmod>2022-04-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://olinjohnson.github.io/post/</loc>
+    <loc>https://olinjohnson.github.io/posts/</loc>
     <lastmod>2022-04-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/about/</loc>
@@ -17,8 +16,6 @@
     <loc>https://olinjohnson.github.io/categories/</loc>
   </url><url>
     <loc>https://olinjohnson.github.io/projects/</loc>
-  </url><url>
-    <loc>https://olinjohnson.github.io/series/</loc>
   </url><url>
     <loc>https://olinjohnson.github.io/tags/</loc>
   </url>
