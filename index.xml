@@ -13,6 +13,8 @@
       
       <guid>https://olinjohnson.github.io/posts/first/</guid>
       <description>My first post</description>
+      <content:encoded><![CDATA[<p>Hello, world!</p>
+]]></content:encoded>
     </item>
     
     <item>
@@ -22,6 +24,32 @@
       
       <guid>https://olinjohnson.github.io/about/</guid>
       <description>Howdy, I&amp;rsquo;m Olin! A few things I like to do&amp;hellip;  I love coding. I like designing software and computer systems, especially experimenting with AI. I like talking and writing about computers, so I document some of my learning in blog posts on my website. I like the occasional CTF. I took up CTFs a while ago while on an expedition to learn more about cybersecurity, and while I&amp;rsquo;m no expert, I find them pretty fun.</description>
+      <content:encoded><![CDATA[<h3 id="howdy-im-olin">Howdy, I&rsquo;m Olin!</h3>
+<!-- raw HTML omitted -->
+<h3 id="a-few-things-i-like-to-do">A few things I like to do&hellip;</h3>
+<!-- raw HTML omitted -->
+<ul>
+<li>I love coding. I like designing software and computer systems, especially experimenting with AI.</li>
+<li>I like talking and writing about computers, so I document some of my learning in blog posts on my website.</li>
+<li>I like the occasional CTF. I took up CTFs a while ago while on an expedition to learn more about cybersecurity, and while I&rsquo;m no expert, I find them pretty fun.</li>
+<li>I enjoy making music in my free time - mostly playing the piano.</li>
+<li>I like running.</li>
+</ul>
+<!-- raw HTML omitted -->
+<h3 id="a-few-projectsprojects-ive-completed">A few <a href="/projects">projects</a> I&rsquo;ve completed&hellip;</h3>
+<ul>
+<li>Sudoku solver &amp; generator</li>
+<li>Minesweeper clone</li>
+<li>2048 clone</li>
+</ul>
+<!-- raw HTML omitted -->
+<h3 id="what-im-currently-working-on">What I&rsquo;m currently working on&hellip;</h3>
+<!-- raw HTML omitted -->
+<ul>
+<li>A mediocre chess engine</li>
+</ul>
+<!-- raw HTML omitted -->
+]]></content:encoded>
     </item>
     
     <item>
@@ -31,7 +59,9 @@
       
       <guid>https://olinjohnson.github.io/projects/</guid>
       <description>A few of my past projects</description>
+      <content:encoded><![CDATA[]]></content:encoded>
     </item>
+    
     
   </channel>
 </rss>
