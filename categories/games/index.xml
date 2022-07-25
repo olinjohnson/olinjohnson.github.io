@@ -1,45 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Olin Johnson</title>
-    <link>https://olinjohnson.github.io/</link>
-    <description>Recent content on Olin Johnson</description>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://olinjohnson.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>About</title>
-      <link>https://olinjohnson.github.io/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://olinjohnson.github.io/about/</guid>
-      <description>Hey there, here&amp;#39;s a little bit about me, Olin.</description>
-      <content:encoded><![CDATA[<h3 id="howdy-im-olin">Howdy, I&rsquo;m Olin!</h3>
-<!-- raw HTML omitted -->
-<h3 id="a-few-things-i-like-to-do">A few things I like to do&hellip;</h3>
-<!-- raw HTML omitted -->
-<ul>
-<li>I love coding. I like designing software and computer systems, especially experimenting with AI.</li>
-<li>I like talking and writing about computers, so I document some of my learning in blog posts on my website.</li>
-<li>I like the occasional CTF. I took up CTFs a while ago while on an expedition to learn more about cybersecurity, and while I&rsquo;m no expert, I find them pretty fun.</li>
-<li>I enjoy making music in my free time - mostly playing the piano.</li>
-<li>I like running.</li>
-</ul>
-<!-- raw HTML omitted -->
-<h3 id="a-few-projectsprojects-ive-completed">A few <a href="/projects">projects</a> I&rsquo;ve completed&hellip;</h3>
-<ul>
-<li>Sudoku solver &amp; generator</li>
-<li>Minesweeper clone</li>
-<li>2048 clone</li>
-</ul>
-<!-- raw HTML omitted -->
-<h3 id="what-im-currently-working-on">What I&rsquo;m currently working on&hellip;</h3>
-<!-- raw HTML omitted -->
-<ul>
-<li>A mediocre chess engine</li>
-</ul>
-<!-- raw HTML omitted -->
-]]></content:encoded>
-    </item>
-    
+    <title>games on Olin Johnson</title>
+    <link>https://olinjohnson.github.io/categories/games/</link>
+    <description>Recent content in games on Olin Johnson</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://olinjohnson.github.io/categories/games/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Improving Minecraft&#39;s Ender Dragon Fight</title>
       <link>https://olinjohnson.github.io/posts/fenderender/</link>
@@ -270,28 +235,6 @@ public final class FenderEnder extends JavaPlugin {
 <p>The final code for this project can be viewed <a href="https://github.com/olinjohnson/FenderEnder">here</a> on GitHub.</p>
 ]]></content:encoded>
     </item>
-    
-    <item>
-      <title>My First Post</title>
-      <link>https://olinjohnson.github.io/posts/first/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://olinjohnson.github.io/posts/first/</guid>
-      <description>My first post</description>
-      <content:encoded><![CDATA[<p>Hello, world!</p>
-]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Past Projects</title>
-      <link>https://olinjohnson.github.io/projects/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://olinjohnson.github.io/projects/</guid>
-      <description>Here are some past projects that I&amp;#39;ve completed.</description>
-      <content:encoded><![CDATA[]]></content:encoded>
-    </item>
-    
     
   </channel>
 </rss>

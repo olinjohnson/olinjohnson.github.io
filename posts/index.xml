@@ -4,12 +4,242 @@
     <title>Posts on Olin Johnson</title>
     <link>https://olinjohnson.github.io/posts/</link>
     <description>Recent content in Posts on Olin Johnson</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 08 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://olinjohnson.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Improving Minecraft&#39;s Ender Dragon Fight</title>
+      <link>https://olinjohnson.github.io/posts/fenderender/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://olinjohnson.github.io/posts/fenderender/</guid>
+      <description>Coding a custom plugin to grant the &amp;#39;Free the End&amp;#39; advancement to every player involved.</description>
+      <content:encoded><![CDATA[<p>For a long time now, I&rsquo;ve always found it a little bit weird that in Minecraft, only the person who gets the last swipe on the ender dragon actually earns the advancement &ldquo;Free the End&rdquo;.</p>
+<p>So, after a suggestion from a friend, I decided to code a little plugin that would grant the advancement to every player who was involved with the fight.</p>
+<h3 id="coding-the-plugin">Coding the Plugin</h3>
+<p>Before starting, you&rsquo;ll have to install a fantastic IntelliJ plugin called <a href="https://plugins.jetbrains.com/plugin/8327-minecraft-development">Minecraft Development</a>, which will set up our project architecture very easily for us.</p>
+<p>With the plugin installed, I fired up IntelliJ and created a new project. Then I selected <code>minecraft</code>, then <code>spigot plugin</code>, so the plugin would work on my spigot server.</p>
+<p><img loading="lazy" src="/posts/fenderender/Project-Wizard.png" alt="Setup image"  />
+</p>
+<p>After that, you&rsquo;ll need to enter a <code>GroupId</code> and <code>ArtifactId</code>.</p>
+<p>Firstly, your <code>GroupId</code> should be your domain name backwards. So, if you have an actual domain name, you can enter it like <code>com.yourdomainname</code>. However, if you don&rsquo;t have a domain name, you can always use your github pages subdomain. For example, my <code>GroupId</code> was <code>io.github.olinjohnson</code>.</p>
+<p>Then, your <code>ArtifactId</code> should be whatever the name of your plugin is going to be.</p>
+<p>After that, you&rsquo;ll have the option to enter some additional (but not required) information, then you can click <code>Next</code> again, name you project, and click <code>Create</code>.</p>
+<p>Finally, IntelliJ will open a window for you to begin developing your plugin.</p>
+<p>In the project&rsquo;s file architecture, there is a directory called <code>src</code>. Inside <code>src -&gt; main -&gt; java</code> there will be a java package with the title <code>yourGroupId.yourArtifactId</code>. Inside this package is where the core class for the project is. If we open up the java class, we can see a couple important methods.</p>
+<pre tabindex="0"><code>package io.github.olinjohnson.fenderender;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+public final class FenderEnder extends JavaPlugin {
+
+    @Override
+    public void onEnable(){
+    }
+
+    @Override
+    public void onDisable()
+    }
+}
+</code></pre><p>The <code>onEnable()</code> method is called when the plugin is loaded, and <code>onDisable</code> is called when the plugin is terminated.</p>
+<p>For now, we&rsquo;re going to leave these two methods alone and create a new class inside the package called <code>EnderDragonController</code>.</p>
+<p>My original thought process for creating this plugin was that the plugin should start by containing an event listener for whenever any entity dies. Then, it should check if the recently deceased entity is the ender dragon. If so, then it should award the &ldquo;Free the End&rdquo; advancement to any player in the end dimension.</p>
+<p>So, lets begin by creating the event listener. We&rsquo;ll want our class <code>EnderDragonController</code> to implement the Bukkit <code>Listener</code> class.</p>
+<pre tabindex="0"><code>package io.github.olinjohnson.fenderender;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+
+public class EnderDragonController implements Listener {
+
+}
+</code></pre><p>Then, we&rsquo;ll create a method to listen for an entity death events.</p>
+<pre tabindex="0"><code>package io.github.olinjohnson.fenderender;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDeathEvent;
+
+public class EnderDragonController implements Listener {
+
+    @EventHandler
+    public void onEnderDragonDeath(EntityDeathEvent event){
+
+    }
+
+}
+</code></pre><p>However, right now, this method is called whenever <strong>any</strong> entity dies. We only want it to run when the ender dragon dies. So, we&rsquo;ll add a check to see if it was the ender dragon that died.</p>
+<pre tabindex="0"><code>package io.github.olinjohnson.fenderender;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EnderDragon;
+
+public class EnderDragonController implements Listener {
+
+    @EventHandler
+    public void onEnderDragonDeath(EntityDeathEvent event){
+
+        Entity entity = event.getEntity();
+        if(entity instanceof EnderDragon){
+
+        }
+
+    }
+
+}
+</code></pre><p>In the code, we can use the <code>instanceof</code> keyword to compare the entity in question and check if it is the ender dragon. This checks to see if the entity is an instance of the <code>EnderDragon</code> class.</p>
+<p>Now that we&rsquo;ve detected the death of the ender dragon, we need to reward all players in the end dimension with the advancement. We&rsquo;ll start by retrieving a list of all the online players with <code>Bukkit.getOnlinePlayers()</code>. This returns a Java collection, which we can iterate over in a <code>for</code> loop.</p>
+<pre tabindex="0"><code>package io.github.olinjohnson.fenderender;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EnderDragon;
+import org.bukkit.entity.Player;
+
+public class EnderDragonController implements Listener {
+
+    @EventHandler
+    public void onEnderDragonDeath(EntityDeathEvent event){
+
+        Entity entity = event.getEntity();
+        if(entity instanceof EnderDragon){
+            
+            for(Player p: Bukkit.getOnlinePlayers()){
+
+            }
+
+        }
+
+    }
+
+}
+</code></pre><p>Then, we&rsquo;ll add a check to see which players in the collection are in the end dimension.</p>
+<pre tabindex="0"><code>package io.github.olinjohnson.fenderender;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EnderDragon;
+import org.bukkit.World;
+
+public class EnderDragonController implements Listener {
+
+    @EventHandler
+    public void onEnderDragonDeath(EntityDeathEvent event){
+
+        Entity entity = event.getEntity();
+        if(entity instanceof EnderDragon){
+            
+            for(Player p: Bukkit.getOnlinePlayers()){
+
+                if(p.getWorld().getEnvironment() == World.Environment.THE_END){
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+</code></pre><p>Finally, now that we&rsquo;ve compiled a collection of players who were in the end while the ender dragon was killed, we need to reward them all with the advancement &ldquo;Free the End&rdquo;.</p>
+<p>We&rsquo;ll start by storing a reference to the advancement name in an instance of Bukkit&rsquo;s <code>NamespacedKey</code> class. Then, we&rsquo;ll get a reference to the player&rsquo;s progress towards the advancement.</p>
+<pre tabindex="0"><code>// Reference to the advancement name
+NamespacedKey key = NamespacedKey.minecraft(&#34;end/kill_dragon&#34;);
+// Get the player&#39;s current progress
+AdvancementProgress progress = p.getAdvancementProgress(Bukkit.getAdvancement(key));
+</code></pre><p>Then, we&rsquo;ll evaluate every remaining criteria that a player has to complete to fulfill this advancement. We&rsquo;ll update any incomplete criteria to be complete.</p>
+<pre tabindex="0"><code>// Reference to the advancement name
+NamespacedKey key = NamespacedKey.minecraft(&#34;end/kill_dragon&#34;);
+// Get the player&#39;s current progress
+AdvancementProgress progress = p.getAdvancementProgress(Bukkit.getAdvancement(key));
+// Iterate over remaining criteria
+for(String stuff_left: progress.getRemainingCriteria()){
+    // Grant progress towards the advancement
+    progress.awardCriteria(left);
+}
+</code></pre><p>This will award a player with the advancement.</p>
+<p>Finally, all your code in the <code>EnderDragonController</code> class should look similar to this:</p>
+<pre tabindex="0"><code>package io.github.olinjohnson.fenderender;
+
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EnderDragon;
+import org.bukkit.entity.Player;
+import org.bukkit.World;
+import org.bukkit.NamespacedKey;
+import org.bukkit.advancement.AdvancementProgress;
+
+public class EnderDragonController implements Listener {
+
+    @EventHandler
+    public void onEnderDragonDeath(EntityDeathEvent event){
+
+        Entity entity = event.getEntity();
+        if(entity instanceof EnderDragon){
+
+            for(Player p: Bukkit.getOnlinePlayers()){
+
+                if(p.getWorld().getEnvironment() == World.Environment.THE_END){
+
+                    NamespacedKey key = NamespacedKey.minecraft(&#34;end/kill_dragon&#34;);
+                    AdvancementProgress progress = p.getAdvancementProgress(Bukkit.getAdvancement(key));
+
+                    for(String stuff_left: progress.getRemainingCriteria()){
+
+                        progress.awardCriteria(stuff_left);
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+</code></pre><p>Alright! We&rsquo;re almost done. Just one more small thing to do.</p>
+<p>Navigate back to your core class, the one with the same name as the title of your project.</p>
+<p>In the <code>onEnable()</code> method, we need to initialize our <code>EnderDragonController</code> class, so it knows to actually listen for events.</p>
+<pre tabindex="0"><code>package io.github.olinjohnson.fenderender;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+public final class FenderEnder extends JavaPlugin {
+
+    @Override
+    public void onEnable() {
+        getServer().getPluginManager().registerEvents(new EnderDragonController(), this);
+    }
+
+    @Override
+    public void onDisable() {}
+}
+</code></pre><p>Now we&rsquo;re done!</p>
+<p>You can package your plugin into a <code>jar</code> file by selecting <code>Build -&gt; Build Project</code>, using <code>CTRL + F9</code>, or by running <code>mvn package</code> from the root level of your project.</p>
+<p>This will create a <code>jar</code> file in your project&rsquo;s <code>target</code> directory, which you can then import into your server&rsquo;s <code>plugins</code> directory to see it in action!</p>
+<p>The final code for this project can be viewed <a href="https://github.com/olinjohnson/FenderEnder">here</a> on GitHub.</p>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>My First Post</title>
       <link>https://olinjohnson.github.io/posts/first/</link>
-      <pubDate>Fri, 08 Apr 2022 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://olinjohnson.github.io/posts/first/</guid>
       <description>My first post</description>
