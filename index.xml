@@ -19,13 +19,15 @@
 <ul>
 <li>I love coding. I like designing software and computer systems, especially experimenting with AI.</li>
 <li>I like talking and writing about computers, so I document some of my learning in blog posts on my website.</li>
-<li>I like the occasional CTF. I took up CTFs a while ago while on an expedition to learn more about cybersecurity, and while I&rsquo;m no expert, I find them pretty fun.</li>
+<li>I like CTFs. I took up CTFs a while ago while on an expedition to learn more about cybersecurity, and while I&rsquo;m no expert, I find them pretty fun.</li>
 <li>I enjoy making music in my free time - mostly playing the piano.</li>
 <li>I like running.</li>
 </ul>
 <!-- raw HTML omitted -->
 <h3 id="a-few-projectsprojects-ive-completed">A few <a href="/projects">projects</a> I&rsquo;ve completed&hellip;</h3>
 <ul>
+<li>Othello clone with AI</li>
+<li>Connect 4 clone with AI</li>
 <li>Sudoku solver &amp; generator</li>
 <li>Minesweeper clone</li>
 <li>2048 clone</li>
@@ -35,6 +37,7 @@
 <!-- raw HTML omitted -->
 <ul>
 <li>A mediocre chess engine</li>
+<li>Some neural networks</li>
 </ul>
 <!-- raw HTML omitted -->
 ]]></content:encoded>
