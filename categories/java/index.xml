@@ -4,20 +4,21 @@
     <title>java on Olin Johnson</title>
     <link>https://olinjohnson.github.io/categories/java/</link>
     <description>Recent content in java on Olin Johnson</description>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://olinjohnson.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 25 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Improving Minecraft&#39;s Ender Dragon Fight</title>
-      <link>https://olinjohnson.github.io/posts/fenderender/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <link>https://olinjohnson.github.io/posts/improving-minecrafts-ender-dragon-fight/</link>
+      <pubDate>Mon, 25 Jul 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://olinjohnson.github.io/posts/fenderender/</guid>
+      <guid>https://olinjohnson.github.io/posts/improving-minecrafts-ender-dragon-fight/</guid>
       <description>Coding a custom plugin to grant the &amp;#39;Free the End&amp;#39; advancement to every player involved.</description>
       <content:encoded><![CDATA[<p>For a long time now, I&rsquo;ve always found it a little bit weird that in Minecraft, only the person who gets the last swipe on the ender dragon actually earns the advancement &ldquo;Free the End&rdquo;.</p>
 <p>So, after a suggestion from a friend, I decided to code a little plugin that would grant the advancement to every player who was involved with the fight.</p>
 <h3 id="coding-the-plugin">Coding the Plugin</h3>
 <p>Before starting, you&rsquo;ll have to install a fantastic IntelliJ plugin called <a href="https://plugins.jetbrains.com/plugin/8327-minecraft-development">Minecraft Development</a>, which will set up our project architecture very easily for us.</p>
 <p>With the plugin installed, I fired up IntelliJ and created a new project. Then I selected <code>minecraft</code>, then <code>spigot plugin</code>, so the plugin would work on my spigot server.</p>
-<p><img loading="lazy" src="/posts/fenderender/Project-Wizard.png" alt="Setup image"  />
+<p><img loading="lazy" src="/posts/fenderender-assets/Project-Wizard.png" alt="Setup image"  />
 </p>
 <p>After that, you&rsquo;ll need to enter a <code>GroupId</code> and <code>ArtifactId</code>.</p>
 <p>Firstly, your <code>GroupId</code> should be your domain name backwards. So, if you have an actual domain name, you can enter it like <code>com.yourdomainname</code>. However, if you don&rsquo;t have a domain name, you can always use your github pages subdomain. For example, my <code>GroupId</code> was <code>io.github.olinjohnson</code>.</p>
@@ -109,7 +110,7 @@ public class EnderDragonController implements Listener {
 
         Entity entity = event.getEntity();
         if(entity instanceof EnderDragon){
-            
+
             for(Player p: Bukkit.getOnlinePlayers()){
 
             }
@@ -137,7 +138,7 @@ public class EnderDragonController implements Listener {
 
         Entity entity = event.getEntity();
         if(entity instanceof EnderDragon){
-            
+
             for(Player p: Bukkit.getOnlinePlayers()){
 
                 if(p.getWorld().getEnvironment() == World.Environment.THE_END){

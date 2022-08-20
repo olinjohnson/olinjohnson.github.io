@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>data structures on Olin Johnson</title>
+    <link>https://olinjohnson.github.io/categories/data-structures/</link>
+    <description>Recent content in data structures on Olin Johnson</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 20 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/data-structures/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optimizing Chess, Othello, and Connect 4 With Bitboards</title>
+      <link>https://olinjohnson.github.io/posts/optimizing-chess-othello-and-connect-4-with-bitboards/</link>
+      <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://olinjohnson.github.io/posts/optimizing-chess-othello-and-connect-4-with-bitboards/</guid>
+      <description>Using bitboards to speed up move generation and evaluation</description>
+      <content:encoded><![CDATA[<p>When creating an AI for games like chess and Othello, your move generation function is one of the most integral parts of the algorithm. However, often times, (if you’re not careful) it can also be one of the slowest parts of your AI, often greatly impacting performance after being executed over and over, millions of times. It is the chink in the impenetrable armor of your DIY supercomputer.</p>
+<p>However, good news for you, there are significant optimizations we can make to drastically decrease the running time of your move generation function. One of the most influencing factors happens to be the way we represent the board.</p>
+<p>Instead of representing the board with something like a 2d array, there’s a much more efficient data structure we can use: a bitboard.</p>
+<p>Actually, multiple bitboards.</p>
+<p>See, it turns out that it is very efficient to represent the board simply as a collection of large numbers. A bitboard is usually just a 64 bit integer, with each bit representing the corresponding tile on a board like a chess board. For example, In the game Othello, we might have 2 bitboards – 1 for black and another for white. Each “on” bit, or 1, in a bitboard represents an occupied tile, where a player’s piece is. Each “off” bit, or 0, represents an empty tile. This is why we have a bitboard for both black and white, to distinguish between each player’s pieces.</p>
+<p>Defining a bitboard in C# can be as simple as declaring an unsigned (non-negative) long integer.</p>
+<pre tabindex="0"><code>ulong bitboard = 0;
+</code></pre><p>In a game like Othello, we can also create a class for the game board with attributes to hold the bitboards for black and white.</p>
+<pre tabindex="0"><code>class Board
+{
+	ulong white_pieces = 0;
+	ulong black_pieces = 0;
+
+	public Board()
+    	{
+        	white_pieces = 0x1008000000;
+        	black_pieces = 0x810000000;
+    	}
+}
+</code></pre><p>Now, if we initialize a new <code>Board</code>, it will give us the starting position for an Othello game.</p>
+<p><img loading="lazy" src="/posts/bitboards/starting_board.png" alt="Starting position for Othello"  />
+</p>
+<p>You can see that if you convert the values for <code>white_pieces</code> and <code>black_pieces</code> from hexadecimal to binary, the activated bits in each bitboard will match up with the positions of the pieces on the board.</p>
+<pre tabindex="0"><code>ulong white_pieces = 0x1008000000;
+
+/*
+*	0x1008000000 = 0001000000001000000000000000000000000000
+*
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*	0 0 0 1 0 0 0 0
+*	0 0 0 0 1 0 0 0
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*/
+</code></pre><pre tabindex="0"><code>ulong black_pieces = 0x810000000;
+
+/*
+*	0x810000000 = 100000010000000000000000000000000000
+*
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0 0
+*/
+</code></pre><h3 id="why-use-bitboards">Why use bitboards?</h3>
+<p>Well, I can assure you, though bitboards seem like a lot of hassle initially, they are well worth it for their performance benefits.</p>
+<p>The primary reason why bitboards are so computationally efficient is because you can utilize bitwise operators to speed up calculation and eleminate conditionals.</p>
+<p>For example, in the game connect 4, in order to detect a win, we need to evaluate if either player has 4 in a row.</p>
+<p>We can start by initializing two bitboards, one to keep track of the red player’s pieces and another to keep track of the yellow player’s pieces. Since a connect 4 board is smaller (only 42 tiles), we only need 42 bits to represent the board. So, we’ll assign each of the first 42 bits to a position on the board.</p>
+<pre tabindex="0"><code>ulong red_pieces = 0;
+ulong yellow_pieces = 0;
+</code></pre><p><img loading="lazy" src="/posts/bitboards/assigned-bits.png" alt="Bits assigned to board positions"  />
+</p>
+<p>Now let’s assume the following board position:</p>
+<p><img loading="lazy" src="/posts/bitboards/yellow-win.png" alt="A vertical win for yellow"  />
+</p>
+<p>As you can see in the above screenshot, yellow has won the game by placing 4 of their pieces vertically in a row.</p>
+<p>Using a bitboard, we can check for a vertical win by utilizing the bitwise AND and bitshift operators as follows:</p>
+<pre tabindex="0"><code>ulong pairs = yellow_pieces &amp; (yellow_pieces &lt;&lt; 1);
+ulong quads = pairs &amp; (pairs &lt;&lt; 2);
+
+if(quads &gt; 0)
+{
+	return true;
+}
+else
+{
+	return false;
+}
+</code></pre><p>First of all, we start by initializing a new bitboard, called <code>pairs</code>.</p>
+<p>The goal of this bitboard is to store all of the vertical pairs of yellow coins, all the 2-in-a-row combinations.</p>
+<p>To do this, we first bitshift all the yellow pieces left 1 bit – the upwards direction.</p>
+<p><img loading="lazy" src="/posts/bitboards/yellow_shifted.png" alt="example of shifting"  />
+</p>
+<p>As you can see, bit 19 gets shifted to bit 20, bit 20 gets shifted to bit 21, bit 21 gets shifted to bit 22, and bit 22 gets shifted to bit 23.</p>
+<p>Now that we have shifted all of the pieces up by 1 tile, we record which pieces align with the initial yellow pieces. If they do align, then we have found 2 in a row.</p>
+<p>We can do this by using the bitwise AND operator.</p>
+<pre tabindex="0"><code>/*
+*	0 0 0 0 0 0 0				0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0				0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0				0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0		   &amp;		0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0				0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0				0 0 0 0 0 0 0
+*/
+
+// 000000000000000000001111000000000000000000 &amp; 000000000000000000011110000000000000000000
+</code></pre><p>Bits 20, 21, and 22 are activated on both bitboards, so when we AND them together, those are the bits that will be left on.</p>
+<pre tabindex="0"><code>/*
+*	0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0
+*	0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0
+*	0 0 0 0 0 0 0
+*/
+
+// 000000000000000000001110000000000000000000
+</code></pre><p>Since there are three activated bits, we can see that there were three pairs of vertical yellow pieces.</p>
+<p>Next, we’ll repeat the whole process again to find 4 in a row – with a slight tweak.</p>
+<p>This time, we’re going to calculate a bitboard called <code>quads</code> – we’ll take the bitboard <code>pairs</code> that we just calculated and bitshift it left <strong>2 bits</strong>. This is to find “pairs of pairs”, or 4 in a row.</p>
+<pre tabindex="0"><code>// 000000000000000000001110000000000000000000 &lt;&lt; 2
+/*
+* 	Result:
+*
+*	0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0
+*	0 0 0 1 0 0 0
+*	0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0
+*/
+
+// 000000000000000000111000000000000000000000
+</code></pre><p>Finally, we’ll AND the result with <code>pairs</code> . If there are any bits left on after this operation, we’ll know we have found four in a row.</p>
+<pre tabindex="0"><code>/*
+*	0 0 0 1 0 0 0				0 0 0 0 0 0 0
+*	0 0 0 1 0 0 0				0 0 0 0 0 0 0
+*	0 0 0 1 0 0 0				0 0 0 1 0 0 0
+*	0 0 0 0 0 0 0		   &amp;		0 0 0 1 0 0 0
+*	0 0 0 0 0 0 0				0 0 0 1 0 0 0
+*	0 0 0 0 0 0 0				0 0 0 0 0 0 0
+*/
+
+// 000000000000000000111000000000000000000000 &amp; 000000000000000000001110000000000000000000
+</code></pre><p>Result:</p>
+<pre tabindex="0"><code>/*
+*	0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0
+*	0 0 0 1 0 0 0
+*	0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0
+*	0 0 0 0 0 0 0
+*/
+
+// 000000000000000000001000000000000000000000
+</code></pre><p>1 bit (that corresponds to the topmost yellow piece) has been left activated - this means that there we have found four in a row.</p>
+<p>To calculate four in a row in other directions too, we can just change the amount bitshifted. For example, we could calculate horizontal wins by bitshifting 6 bits to the left, instead of 1.</p>
+<p>Using bitboards, we are able to calculate wins in connect 4 (and many other applications) without the use of many conditionals and using very low-level operations. This makes bitboards remarkably fast – good for an AI that needs to check for wins millions of times.</p>
+<p>Bitboards can also be applied to more complex games like chess, where you can have a bitboard for each type of piece and color (i.e. A bitboard for white knights).</p>
+<p>Check out my full <a href="https://github.com/olinjohnson/Connect4">Connect 4 AI</a><!-- raw HTML omitted --> and <a href="https://github.com/olinjohnson/Othello">Othello AI</a><!-- raw HTML omitted -->.</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

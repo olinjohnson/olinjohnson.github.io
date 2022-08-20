@@ -2,25 +2,45 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://olinjohnson.github.io/about/</loc>
-  </url><url>
-    <loc>https://olinjohnson.github.io/categories/blog/</loc>
+    <loc>https://olinjohnson.github.io/categories/ai/</loc>
+    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/categories/</loc>
+    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://olinjohnson.github.io/categories/chess/</loc>
+    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://olinjohnson.github.io/categories/data-structures/</loc>
+    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/categories/games/</loc>
-  </url><url>
-    <loc>https://olinjohnson.github.io/posts/fenderender/</loc>
-  </url><url>
-    <loc>https://olinjohnson.github.io/categories/java/</loc>
-  </url><url>
-    <loc>https://olinjohnson.github.io/posts/first/</loc>
+    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/</loc>
+    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://olinjohnson.github.io/projects/</loc>
+    <loc>https://olinjohnson.github.io/posts/optimizing-chess-othello-and-connect-4-with-bitboards/</loc>
+    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/posts/</loc>
+    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://olinjohnson.github.io/posts/improving-minecrafts-ender-dragon-fight/</loc>
+    <lastmod>2022-07-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://olinjohnson.github.io/categories/java/</loc>
+    <lastmod>2022-07-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://olinjohnson.github.io/categories/blog/</loc>
+    <lastmod>2022-04-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://olinjohnson.github.io/posts/my-first-post/</loc>
+    <lastmod>2022-04-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://olinjohnson.github.io/about/</loc>
+  </url><url>
+    <loc>https://olinjohnson.github.io/projects/</loc>
   </url><url>
     <loc>https://olinjohnson.github.io/search/</loc>
   </url><url>
