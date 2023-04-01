@@ -415,6 +415,10 @@ public final class FenderEnder extends JavaPlugin {
       <description>A little bit about me</description>
       <content:encoded><![CDATA[<h3 id="howdy-im-olin">Howdy, I&rsquo;m Olin!</h3>
 <!-- raw HTML omitted -->
+<p>Welcome to my corner of the internet!</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>I’m a web developer, AI enthusiast, and cybersecurity aficionado.</p>
+<!-- raw HTML omitted -->
 <h3 id="a-few-things-i-like-to-do">A few things I like to do&hellip;</h3>
 <!-- raw HTML omitted -->
 <ul>
@@ -433,11 +437,16 @@ public final class FenderEnder extends JavaPlugin {
 <li>2048 clone</li>
 </ul>
 <!-- raw HTML omitted -->
+<ul>
+<li>Contributed to <a href="https://github.com/numpy">numpy</a></li>
+</ul>
+<!-- raw HTML omitted -->
 <h3 id="what-im-currently-working-on">What I&rsquo;m currently working on&hellip;</h3>
 <!-- raw HTML omitted -->
 <ul>
 <li>A mediocre chess engine</li>
 <li>Some neural networks</li>
+<li>Open source projects</li>
 </ul>
 <!-- raw HTML omitted -->
 ]]></content:encoded>
