@@ -414,17 +414,15 @@ public final class FenderEnder extends JavaPlugin {
       <guid>https://olinjohnson.github.io/about/</guid>
       <description>A little bit about me</description>
       <content:encoded><![CDATA[<h3 id="howdy-im-olin">Howdy, I&rsquo;m Olin!</h3>
-<!-- raw HTML omitted -->
-<p>Welcome to my corner of the internet!</p>
 <p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>I’m a web developer, AI enthusiast, and cybersecurity aficionado.</p>
 <!-- raw HTML omitted -->
 <h3 id="a-few-things-i-like-to-do">A few things I like to do&hellip;</h3>
 <!-- raw HTML omitted -->
 <ul>
-<li>I love coding. I like designing software and experimenting with AI.</li>
-<li>I like CTFs. I took up CTFs a while ago while on an expedition to learn more about cybersecurity, and while I&rsquo;m no expert, I find them pretty fun.</li>
-<li>I like music - and playing the piano.</li>
+<li>I love coding - especially AI.</li>
+<li>I like CTFs. I took up CTFs a while ago while on a mission to learn more about cybersecurity</li>
+<li>I like making music.</li>
 <li>I like running.</li>
 </ul>
 <!-- raw HTML omitted -->
@@ -439,13 +437,14 @@ public final class FenderEnder extends JavaPlugin {
 <!-- raw HTML omitted -->
 <ul>
 <li>Contributed to <a href="https://github.com/numpy">numpy</a></li>
+<li>Contributed to <a href="https://github.com/matplotlib">matplotlib</a></li>
 </ul>
 <!-- raw HTML omitted -->
 <h3 id="what-im-currently-working-on">What I&rsquo;m currently working on&hellip;</h3>
 <!-- raw HTML omitted -->
 <ul>
 <li>A mediocre chess engine</li>
-<li>Some neural networks</li>
+<li>A custom machine learning framework</li>
 <li>Open source projects</li>
 </ul>
 <!-- raw HTML omitted -->
