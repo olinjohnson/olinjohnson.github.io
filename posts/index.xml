@@ -42,11 +42,13 @@
       
       <guid>https://olinjohnson.github.io/posts/optimizing-chess-othello-and-connect-4-with-bitboards/</guid>
       <description>Using bitboards to speed up move generation and evaluation</description>
-      <content:encoded><![CDATA[<p>When creating an AI for games like chess and Othello, your move generation function is one of the most integral parts of the algorithm. However, often times, (if you’re not careful) it can also be one of the slowest parts of your AI, often greatly impacting performance after being executed over and over, millions of times. It is the chink in the impenetrable armor of your DIY supercomputer.</p>
-<p>However, good news for you, there are significant optimizations we can make to drastically decrease the running time of your move generation function. One of the most influencing factors happens to be the way we represent the board.</p>
-<p>Instead of representing the board with something like a 2d array, there’s a much more efficient data structure we can use: a bitboard.</p>
+      <content:encoded><![CDATA[<p>I&rsquo;ve recently been working on creating AIs for games like chess and othello, and I&rsquo;ve been putting a lot of thought into the move generation functions and search algorithms of these AIs. Since these components are run so many times, it&rsquo;s important to make sure that they are very efficient so they don&rsquo;t slow down the computer too much and impact the AIs performance.</p>
+<p>Fortunately, I was able to implement few huge optimizations that drastically reduced the running time of my AI, which included a change in how the board is represented.</p>
+<p>It turns out that instead of representing the positions of pieces on the game board with something like a 2d array, there’s a much more efficient data structure we can use: a bitboard.</p>
 <p>Actually, multiple bitboards.</p>
-<p>See, it turns out that it is very efficient to represent the board simply as a collection of large numbers. A bitboard is usually just a 64 bit integer, with each bit representing the corresponding tile on a board like a chess board. For example, In the game Othello, we might have 2 bitboards – 1 for black and another for white. Each “on” bit, or 1, in a bitboard represents an occupied tile, where a player’s piece is. Each “off” bit, or 0, represents an empty tile. This is why we have a bitboard for both black and white, to distinguish between each player’s pieces.</p>
+<p>What I realized is that it&rsquo;s much more efficient to represent the board simply as a collection of large numbers, instead of multi-dimensional arrays or some other complex structure.</p>
+<p>In practice, what I mean by this is that we can take a 64 bit integer, called a bitboard, and assign each bit to a corresponding tile on a board like a chess board. By doing this, we can essentially store the board configuration using an integer, which takes up way less space in your computer&rsquo;s memory than something like an array. Bitboards also have a couple other incredible advantages that I&rsquo;ll dive into in a bit.</p>
+<p>For example, In the game Othello, we might have 2 bitboards – 1 to represent the position of black pieces on the board and another for the white pieces. Each “on” bit, or 1, in a bitboard represents an occupied tile where a player’s piece is. Each “off” bit, or 0, represents an empty tile. This is why we have a bitboard for both black and white, to distinguish between each player’s pieces.</p>
 <p>Defining a bitboard in C# can be as simple as declaring an unsigned (non-negative) long integer.</p>
 <pre tabindex="0"><code>ulong bitboard = 0;
 </code></pre><p>In a game like Othello, we can also create a class for the game board with attributes to hold the bitboards for black and white.</p>
@@ -64,11 +66,11 @@
 </code></pre><p>Now, if we initialize a new <code>Board</code>, it will give us the starting position for an Othello game.</p>
 <p><img loading="lazy" src="/posts/bitboards/starting_board.png" alt="Starting position for Othello"  />
 </p>
-<p>You can see that if you convert the values for <code>white_pieces</code> and <code>black_pieces</code> from hexadecimal to binary, the activated bits in each bitboard will match up with the positions of the pieces on the board.</p>
+<p>You can see that if you convert the values for <code>white_pieces</code> and <code>black_pieces</code> from hexadecimal to binary, the activated bits in each bitboard will line up with the positions of the pieces on the board.</p>
 <pre tabindex="0"><code>ulong white_pieces = 0x1008000000;
 
 /*
-*	0x1008000000 = 0001000000001000000000000000000000000000
+*	0x1008000000 = 0000000000000000000000000001000000001000000000000000000000000000
 *
 *	0 0 0 0 0 0 0 0
 *	0 0 0 0 0 0 0 0
@@ -82,7 +84,7 @@
 </code></pre><pre tabindex="0"><code>ulong black_pieces = 0x810000000;
 
 /*
-*	0x810000000 = 100000010000000000000000000000000000
+*	0x810000000 = 0000000000000000000000000000100000010000000000000000000000000000
 *
 *	0 0 0 0 0 0 0 0
 *	0 0 0 0 0 0 0 0
@@ -96,7 +98,9 @@
 </code></pre><h3 id="why-use-bitboards">Why use bitboards?</h3>
 <p>Well, I can assure you, though bitboards seem like a lot of hassle initially, they are well worth it for their performance benefits.</p>
 <p>The primary reason why bitboards are so computationally efficient is because you can utilize bitwise operators to speed up calculation and eleminate conditionals.</p>
-<p>For example, in the game connect 4, in order to detect a win, we need to evaluate if either player has 4 in a row.</p>
+<p>Here&rsquo;s an example:</p>
+<hr>
+<p>In the game connect 4, in order to detect a win, we need to evaluate if either player has 4 in a row.</p>
 <p>We can start by initializing two bitboards, one to keep track of the red player’s pieces and another to keep track of the yellow player’s pieces. Since a connect 4 board is smaller (only 42 tiles), we only need 42 bits to represent the board. So, we’ll assign each of the first 42 bits to a position on the board.</p>
 <pre tabindex="0"><code>ulong red_pieces = 0;
 ulong yellow_pieces = 0;
@@ -106,19 +110,14 @@ ulong yellow_pieces = 0;
 <p><img loading="lazy" src="/posts/bitboards/yellow-win.png" alt="A vertical win for yellow"  />
 </p>
 <p>As you can see in the above screenshot, yellow has won the game by placing 4 of their pieces vertically in a row.</p>
-<p>Using a bitboard, we can check for a vertical win by utilizing the bitwise AND and bitshift operators as follows:</p>
-<pre tabindex="0"><code>ulong pairs = yellow_pieces &amp; (yellow_pieces &lt;&lt; 1);
+<p>Using a bitboard, we can check for a vertical win (<em>in just 3 lines of code!</em>) by utilizing the bitwise AND and bitshift operators as follows:</p>
+<pre tabindex="0"><code>// Step 1:
+ulong pairs = yellow_pieces &amp; (yellow_pieces &lt;&lt; 1);
+// Step 2:
 ulong quads = pairs &amp; (pairs &lt;&lt; 2);
-
-if(quads &gt; 0)
-{
-	return true;
-}
-else
-{
-	return false;
-}
-</code></pre><p>First of all, we start by initializing a new bitboard, called <code>pairs</code>.</p>
+// Step 3 – returning the result from steps 1 and 2:
+return quads &gt; 0
+</code></pre><p><strong>1.</strong> First of all, we start by initializing a new bitboard, called <code>pairs</code>.</p>
 <p>The goal of this bitboard is to store all of the vertical pairs of yellow coins, all the 2-in-a-row combinations.</p>
 <p>To do this, we first bitshift all the yellow pieces left 1 bit – the upwards direction.</p>
 <p><img loading="lazy" src="/posts/bitboards/yellow_shifted.png" alt="example of shifting"  />
@@ -148,7 +147,7 @@ else
 
 // 000000000000000000001110000000000000000000
 </code></pre><p>Since there are three activated bits, we can see that there were three pairs of vertical yellow pieces.</p>
-<p>Next, we’ll repeat the whole process again to find 4 in a row – with a slight tweak.</p>
+<p><strong>2.</strong> Next, we’ll repeat the whole process again to find 4 in a row – with a slight tweak.</p>
 <p>This time, we’re going to calculate a bitboard called <code>quads</code> – we’ll take the bitboard <code>pairs</code> that we just calculated and bitshift it left <strong>2 bits</strong>. This is to find “pairs of pairs”, or 4 in a row.</p>
 <pre tabindex="0"><code>// 000000000000000000001110000000000000000000 &lt;&lt; 2
 /*
@@ -185,10 +184,12 @@ else
 */
 
 // 000000000000000000001000000000000000000000
-</code></pre><p>1 bit (that corresponds to the topmost yellow piece) has been left activated - this means that there we have found four in a row.</p>
+</code></pre><p>1 bit (that corresponds to the topmost yellow piece) has been left activated - this means that we have found four in a row.</p>
+<p><strong>3.</strong> If no bits have been left activated, the value of <code>quads</code> will be 0, which is why we return <code>true</code> if quads is bigger than 1 - to signify a win.</p>
 <p>To calculate four in a row in other directions too, we can just change the amount bitshifted. For example, we could calculate horizontal wins by bitshifting 6 bits to the left, instead of 1.</p>
-<p>Using bitboards, we are able to calculate wins in connect 4 (and many other applications) without the use of many conditionals and using very low-level operations. This makes bitboards remarkably fast – good for an AI that needs to check for wins millions of times.</p>
-<p>Bitboards can also be applied to more complex games like chess, where you can have a bitboard for each type of piece and color (i.e. A bitboard for white knights).</p>
+<hr>
+<p>As you can see, using bitboards, we are able to calculate wins in connect 4 (and many other applications) without the use of many conditionals and using very low-level operations. This makes bitboards remarkably fast – good for an AI that needs to check for wins millions of times.</p>
+<p>You can imagine how bitboards can also be applied to more complex games like chess, where you&rsquo;d have a bitboard for each type of piece and color (i.e. A bitboard for white knights).</p>
 <p>Check out my full <a href="https://github.com/olinjohnson/Connect4">Connect 4 AI</a><!-- raw HTML omitted --> and <a href="https://github.com/olinjohnson/Othello">Othello AI</a><!-- raw HTML omitted -->.</p>
 ]]></content:encoded>
     </item>
@@ -204,11 +205,11 @@ else
 <p>So, after a suggestion from a friend, I decided to code a little plugin that would grant the advancement to every player who was involved with the fight.</p>
 <h3 id="coding-the-plugin">Coding the Plugin</h3>
 <p>Before starting, you&rsquo;ll have to install a fantastic IntelliJ plugin called <a href="https://plugins.jetbrains.com/plugin/8327-minecraft-development">Minecraft Development</a>, which will set up our project architecture very easily for us.</p>
-<p>With the plugin installed, I fired up IntelliJ and created a new project. Then I selected <code>minecraft</code>, then <code>spigot plugin</code>, so the plugin would work on my spigot server.</p>
+<p>With the plugin installed, I fired up IntelliJ and created a new project. Then I selected &ldquo;minecraft&rdquo;, then &ldquo;spigot plugin&rdquo;, so the plugin would work on my spigot server.</p>
 <p><img loading="lazy" src="/posts/fenderender-assets/Project-Wizard.png" alt="Setup image"  />
 </p>
 <p>After that, you&rsquo;ll need to enter a <code>GroupId</code> and <code>ArtifactId</code>.</p>
-<p>Firstly, your <code>GroupId</code> should be your domain name backwards. So, if you have an actual domain name, you can enter it like <code>com.yourdomainname</code>. However, if you don&rsquo;t have a domain name, you can always use your github pages subdomain. For example, my <code>GroupId</code> was <code>io.github.olinjohnson</code>.</p>
+<p>Firstly, your <code>GroupId</code> should be your domain name backwards. So, if you have an actual domain name, you can enter it like <code>com.yourdomainname</code> (if it ends with .com). However, if you don&rsquo;t have a domain name, you can always use your github pages subdomain. For example, my <code>GroupId</code> was <code>io.github.olinjohnson</code>.</p>
 <p>Then, your <code>ArtifactId</code> should be whatever the name of your plugin is going to be.</p>
 <p>After that, you&rsquo;ll have the option to enter some additional (but not required) information, then you can click <code>Next</code> again, name you project, and click <code>Create</code>.</p>
 <p>Finally, IntelliJ will open a window for you to begin developing your plugin.</p>

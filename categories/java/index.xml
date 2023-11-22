@@ -17,11 +17,11 @@
 <p>So, after a suggestion from a friend, I decided to code a little plugin that would grant the advancement to every player who was involved with the fight.</p>
 <h3 id="coding-the-plugin">Coding the Plugin</h3>
 <p>Before starting, you&rsquo;ll have to install a fantastic IntelliJ plugin called <a href="https://plugins.jetbrains.com/plugin/8327-minecraft-development">Minecraft Development</a>, which will set up our project architecture very easily for us.</p>
-<p>With the plugin installed, I fired up IntelliJ and created a new project. Then I selected <code>minecraft</code>, then <code>spigot plugin</code>, so the plugin would work on my spigot server.</p>
+<p>With the plugin installed, I fired up IntelliJ and created a new project. Then I selected &ldquo;minecraft&rdquo;, then &ldquo;spigot plugin&rdquo;, so the plugin would work on my spigot server.</p>
 <p><img loading="lazy" src="/posts/fenderender-assets/Project-Wizard.png" alt="Setup image"  />
 </p>
 <p>After that, you&rsquo;ll need to enter a <code>GroupId</code> and <code>ArtifactId</code>.</p>
-<p>Firstly, your <code>GroupId</code> should be your domain name backwards. So, if you have an actual domain name, you can enter it like <code>com.yourdomainname</code>. However, if you don&rsquo;t have a domain name, you can always use your github pages subdomain. For example, my <code>GroupId</code> was <code>io.github.olinjohnson</code>.</p>
+<p>Firstly, your <code>GroupId</code> should be your domain name backwards. So, if you have an actual domain name, you can enter it like <code>com.yourdomainname</code> (if it ends with .com). However, if you don&rsquo;t have a domain name, you can always use your github pages subdomain. For example, my <code>GroupId</code> was <code>io.github.olinjohnson</code>.</p>
 <p>Then, your <code>ArtifactId</code> should be whatever the name of your plugin is going to be.</p>
 <p>After that, you&rsquo;ll have the option to enter some additional (but not required) information, then you can click <code>Next</code> again, name you project, and click <code>Create</code>.</p>
 <p>Finally, IntelliJ will open a window for you to begin developing your plugin.</p>
