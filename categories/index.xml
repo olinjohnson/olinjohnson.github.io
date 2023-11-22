@@ -5,13 +5,33 @@
     <link>https://olinjohnson.github.io/categories/</link>
     <description>Recent content in Categories on Olin Johnson</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 20 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AI</title>
       <link>https://olinjohnson.github.io/categories/ai/</link>
-      <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>
       
       <guid>https://olinjohnson.github.io/categories/ai/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>deep learning</title>
+      <link>https://olinjohnson.github.io/categories/deep-learning/</link>
+      <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://olinjohnson.github.io/categories/deep-learning/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>machine learning</title>
+      <link>https://olinjohnson.github.io/categories/machine-learning/</link>
+      <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://olinjohnson.github.io/categories/machine-learning/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>

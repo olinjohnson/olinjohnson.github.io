@@ -7,12 +7,12 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 25 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Improving Minecraft&#39;s Ender Dragon Fight</title>
-      <link>https://olinjohnson.github.io/posts/improving-minecrafts-ender-dragon-fight/</link>
+      <title>Code for an Ender Dragon Conquistador</title>
+      <link>https://olinjohnson.github.io/posts/code-for-an-ender-dragon-conquistador/</link>
       <pubDate>Mon, 25 Jul 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://olinjohnson.github.io/posts/improving-minecrafts-ender-dragon-fight/</guid>
-      <description>Coding a custom plugin to grant the &amp;#39;Free the End&amp;#39; advancement to every player involved.</description>
+      <guid>https://olinjohnson.github.io/posts/code-for-an-ender-dragon-conquistador/</guid>
+      <description>Improving the end fight experience by coding a custom plugin to grant the &amp;#39;Free the End&amp;#39; advancement to every player involved.</description>
       <content:encoded><![CDATA[<p>For a long time now, I&rsquo;ve always found it a little bit weird that in Minecraft, only the person who gets the last swipe on the ender dragon actually earns the advancement &ldquo;Free the End&rdquo;.</p>
 <p>So, after a suggestion from a friend, I decided to code a little plugin that would grant the advancement to every player who was involved with the fight.</p>
 <h3 id="coding-the-plugin">Coding the Plugin</h3>

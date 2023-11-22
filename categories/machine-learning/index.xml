@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>machine learning on Olin Johnson</title>
+    <link>https://olinjohnson.github.io/categories/machine-learning/</link>
+    <description>Recent content in machine learning on Olin Johnson</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 28 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Part 0: Bits and Brains?</title>
+      <link>https://olinjohnson.github.io/posts/part-0-bits-and-brains/</link>
+      <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://olinjohnson.github.io/posts/part-0-bits-and-brains/</guid>
+      <description>A conceptual overview of the theory behind neural networks</description>
+      <content:encoded><![CDATA[<p>Recently, I&rsquo;ve been doing a lot of work learning about AI and neural networks–specifically by creating deep learning models from scratch. So, I thought I&rsquo;d document some of that learning in a multi-part series about deep learning.</p>
+<p>In case you&rsquo;re not already familiar, neural networks are AI processes that are modeled after the human brain and can solve problems by simulating human methods of learning.</p>
+<p>For example, in the same way that your brain has learned to differentiate between cats and dogs, we can also teach a neural network to classify types of pets (among other things).</p>
+<h3 id="but-how-is-a-computer-able-to-learn-like-a-person">But how is a computer able to learn like a person?</h3>
+<p>Well, let&rsquo;s first look at one of the most essential building blocks of the human brain:</p>
+<p><img loading="lazy" src="/posts/neural_networks_series/neuron.jpg" alt="neuron"  />
+</p>
+<p><em>Image courtesy of <a href="https://www.simplypsychology.org/neuron.html">https://www.simplypsychology.org/neuron.html</a></em></p>
+<p>As you can see, this is a model of a neuron. For our purposes, we&rsquo;ll mostly focus on the dendrites and axons of the neuron.</p>
+<p>In your brain, neurons link together to form neuron chains, which propagate chemical signals from neuron to neuron. These chemical signals are what ultimately determine whether or not certain neurons fire.</p>
+<p>In order to form these chains, the dendrites of one neuron connect to the axons of another (via axon terminals) over a space called a synapse. By connecting these ends, you can see how neurons can be strung together to form really long chain chains.</p>
+<p>It&rsquo;s kind of like plugging extension cords into each other:</p>
+<p><img loading="lazy" src="/posts/neural_networks_series/extension-cord-plugs.jpg" alt="extension cords"  />
+</p>
+<p>Using the extension cord example, it&rsquo;s easy to see how a lot of neurons could be connected together (billions of &rsquo;em) and how they can fire in succession based on chemical signals that travel through the neuron chains.</p>
+<h3 id="ok-so">Ok, so?</h3>
+<p>In essence, a neural network tries to simulate these complex chains of neurons to make decisions like a human would.</p>
+<p>Computationally speaking, we can do this by representing neurons using code, and then simulating how neuron chains would fire to make a decision or judgment like a human brain.</p>
+<p>Of course, this is just a brief overview of the philosophy behind neural networks and it barely even scratches the surface of their complexity. Look out for Part 1 where I&rsquo;ll go more in depth into the code required to create the foundation of a neural network.</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
