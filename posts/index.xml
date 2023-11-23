@@ -5,22 +5,71 @@
     <link>https://olinjohnson.github.io/posts/</link>
     <description>Recent content in Posts on Olin Johnson</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 28 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Part 0: Bits and Brains?</title>
-      <link>https://olinjohnson.github.io/posts/part-0-bits-and-brains/</link>
+      <title>Neural Networks Part 1: Peeling Back the Layers</title>
+      <link>https://olinjohnson.github.io/posts/neural-networks-part-1-peeling-back-the-layers/</link>
+      <pubDate>Sat, 10 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://olinjohnson.github.io/posts/neural-networks-part-1-peeling-back-the-layers/</guid>
+      <description>Modeling and understanding the function of neurons in a network</description>
+      <content:encoded><![CDATA[<div style="background-color: var(--entry); margin-bottom:20px; margin-top:10px; padding:10px; border-radius: var(--radius)"><em>If you haven&rsquo;t already, it might be a good idea to go back and check out <a href="/posts/neural-networks-part-0-bits-and-brains">Part 0</a> before continuing on to part 1.</em></div>
+
+<p>Alright – the first step in the process of coding a neural network from scratch is representing the different components of the network in code.</p>
+<p>Since the individual neurons form the foundation of the network, I figured we&rsquo;d start with those.</p>
+<h3 id="before-we-begin">Before we begin&hellip;</h3>
+<p>It&rsquo;s important to realize that the network we create isn&rsquo;t just going to be a singular chain of neurons strung together one-by-one. Instead, we are going to have <em>layers</em> of neurons that interact with each other. Each neuron in each layer will be an input to each neuron in the next layer, and so on.</p>
+<p>This design is not only critical for the functionality of our network, but it will also reduce computation time.</p>
+<p>Here&rsquo;s a model of the configuration of neurons (in layers) for a very simple network:</p>
+<p><img loading="lazy" src="/posts/neural_networks_series/model1.png" alt="neural network model"  />
+</p>
+<p>As you can see, there are three layers in this network (also three different types of layers) and six neurons in total.</p>
+<p>Each neuron in the network represents a number: the value of that neuron. Each neuron also has other special values called weights and biases that help the network to propagate forward. I&rsquo;ll get to those later.</p>
+<hr>
+<p>I&rsquo;ll start with the input layer – aptly named, this is the layer of neurons which provide inputs to the network. As you can see, this network takes two inputs.</p>
+<p>Realistically, these inputs could be anything: they could be 1s and 0s if the network is built to solve logic gates (like a logical XOR), or they could even be x and y values if the network is intended to predict the output of a mathematical function like sine or cosine.</p>
+<p>But what about images? Like I said earlier, each neuron in the network can be boiled down to a numerical value, so to represent images, we generally have a lot of inputs that represent each individual pixel.</p>
+<p>For example, if we wanted to input a 64x64 black-and-white image to the network, we would have 4096 inputs for each of the 4096 pixels. Each input would be a value between 0 and 1 to represent the brightness of the pixel it represents.</p>
+<hr>
+<p>Next, we have the hidden layer of the network, consisting of 3 neurons. Neural networks can generally have any number of hidden layers consisting of any number of neurons.</p>
+<p>Hidden layers are essentially the &ldquo;logic and reasoning&rdquo; part of the network - they take the inputs, apply some kind of computation, and then output a value to the output layer.</p>
+<p>For example, it&rsquo;s like baking bread.</p>
+<figure>
+    <img loading="lazy" src="/posts/neural_networks_series/bread.jpg"
+         alt="Picture of bread"/> <figcaption>
+            <p><em>Image credit: <a href="https://www.artisanpassion.com/sourdough-rye-bread/">https://www.artisanpassion.com/sourdough-rye-bread/</a></em></p>
+        </figcaption>
+</figure>
+
+<p>The input layer is equivalent to the dough, but the dough has to go in the oven before it becomes a real loaf of bread. Otherwise, it is just a collection of ingredients that have been whisked together.</p>
+<p>The hidden layers act similarly. They take the input, mold it and shape it in some way (like the oven for the bread), and then produce an output. The important thing is that the programmer doesn&rsquo;t really know how the hidden layers are &ldquo;molding and shaping&rdquo; the inputs, because the computer learns by itself and creates its own special recipe to get the correct output given an input. It&rsquo;s like if you put the dough in the oven without knowing what it did and then a complete loaf of bread came out.</p>
+<hr>
+<p>Finally, the output layer takes the product of the hidden layers and then outputs it. The output layer may or may not perform some kind of computation to shape the output, but it ultimately doesn&rsquo;t change the value of the output. This would be like slicing the bread after it comes out of the oven so it&rsquo;s ready to eat.</p>
+<hr>
+<p>So that&rsquo;s the basic theory behind how a neural network takes an input and produces an output. There are more specific operations to determine the exact value of neurons in the network, but I&rsquo;ll get into that next time, when we actually start laying out the network&rsquo;s code.</p>
+<!-- raw HTML omitted -->
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Neural Networks Part 0: Bits and Brains?</title>
+      <link>https://olinjohnson.github.io/posts/neural-networks-part-0-bits-and-brains/</link>
       <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://olinjohnson.github.io/posts/part-0-bits-and-brains/</guid>
+      <guid>https://olinjohnson.github.io/posts/neural-networks-part-0-bits-and-brains/</guid>
       <description>A conceptual overview of the theory behind neural networks</description>
       <content:encoded><![CDATA[<p>Recently, I&rsquo;ve been doing a lot of work learning about AI and neural networks–specifically by creating deep learning models from scratch. So, I thought I&rsquo;d document some of that learning in a multi-part series about deep learning.</p>
 <p>In case you&rsquo;re not already familiar, neural networks are AI processes that are modeled after the human brain and can solve problems by simulating human methods of learning.</p>
 <p>For example, in the same way that your brain has learned to differentiate between cats and dogs, we can also teach a neural network to classify types of pets (among other things).</p>
 <h3 id="but-how-is-a-computer-able-to-learn-like-a-person">But how is a computer able to learn like a person?</h3>
 <p>Well, let&rsquo;s first look at one of the most essential building blocks of the human brain:</p>
-<p><img loading="lazy" src="/posts/neural_networks_series/neuron.jpg" alt="neuron"  />
-</p>
-<p><em>Image courtesy of <a href="https://www.simplypsychology.org/neuron.html">https://www.simplypsychology.org/neuron.html</a></em></p>
+<figure>
+    <img loading="lazy" src="/posts/neural_networks_series/neuron.jpg"
+         alt="neuron image"/> <figcaption>
+            <p><em>Image credit: <a href="https://www.simplypsychology.org/neuron.html">https://www.simplypsychology.org/neuron.html</a></em></p>
+        </figcaption>
+</figure>
+
 <p>As you can see, this is a model of a neuron. For our purposes, we&rsquo;ll mostly focus on the dendrites and axons of the neuron.</p>
 <p>In your brain, neurons link together to form neuron chains, which propagate chemical signals from neuron to neuron. These chemical signals are what ultimately determine whether or not certain neurons fire.</p>
 <p>In order to form these chains, the dendrites of one neuron connect to the axons of another (via axon terminals) over a space called a synapse. By connecting these ends, you can see how neurons can be strung together to form really long chain chains.</p>
