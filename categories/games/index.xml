@@ -8,10 +8,10 @@
     <lastBuildDate>Sat, 20 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/games/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Optimizations Using Bitboards</title>
-      <link>https://olinjohnson.github.io/posts/optimizing-chess-othello-and-connect-4-with-bitboards/</link>
+      <link>https://olinjohnson.github.io/posts/optimizations-using-bitboards/</link>
       <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://olinjohnson.github.io/posts/optimizing-chess-othello-and-connect-4-with-bitboards/</guid>
+      <guid>https://olinjohnson.github.io/posts/optimizations-using-bitboards/</guid>
       <description>Optimizing chess, othello, and connect 4 using bitboards to speed up move generation and evaluation</description>
       <content:encoded><![CDATA[<p>I&rsquo;ve recently been working on creating AIs for games like chess and othello, and I&rsquo;ve been putting a lot of thought into the move generation functions and search algorithms of these AIs. Since these components are run so many times, it&rsquo;s important to make sure that they are very efficient so they don&rsquo;t slow down the computer too much and impact the AIs performance.</p>
 <p>Fortunately, I was able to implement few huge optimizations that drastically reduced the running time of my AI, which included a change in how the board is represented.</p>

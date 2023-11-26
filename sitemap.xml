@@ -3,24 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://olinjohnson.github.io/categories/ai/</loc>
-    <lastmod>2023-06-10T00:00:00+00:00</lastmod>
+    <lastmod>2023-07-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/categories/</loc>
-    <lastmod>2023-06-10T00:00:00+00:00</lastmod>
+    <lastmod>2023-07-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/categories/deep-learning/</loc>
-    <lastmod>2023-06-10T00:00:00+00:00</lastmod>
+    <lastmod>2023-07-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/categories/machine-learning/</loc>
-    <lastmod>2023-06-10T00:00:00+00:00</lastmod>
+    <lastmod>2023-07-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://olinjohnson.github.io/posts/neural-networks-part-1-looking-at-layers/</loc>
-    <lastmod>2023-06-10T00:00:00+00:00</lastmod>
+    <loc>https://olinjohnson.github.io/posts/neural-networks-part-2-neuron-code/</loc>
+    <lastmod>2023-07-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/</loc>
-    <lastmod>2023-06-10T00:00:00+00:00</lastmod>
+    <lastmod>2023-07-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/posts/</loc>
+    <lastmod>2023-07-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://olinjohnson.github.io/posts/neural-networks-part-1-looking-at-layers/</loc>
     <lastmod>2023-06-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/posts/neural-networks-part-0-bits-and-brains/</loc>
@@ -35,7 +38,7 @@
     <loc>https://olinjohnson.github.io/categories/games/</loc>
     <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://olinjohnson.github.io/posts/optimizing-chess-othello-and-connect-4-with-bitboards/</loc>
+    <loc>https://olinjohnson.github.io/posts/optimizations-using-bitboards/</loc>
     <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://olinjohnson.github.io/posts/code-for-an-ender-dragon-conquistador/</loc>
