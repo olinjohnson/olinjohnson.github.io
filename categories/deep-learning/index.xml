@@ -23,7 +23,7 @@
 <img loading="lazy" src="/posts/neural_networks_series/images/weights.png" alt="example image"  />
 </p>
 <p>As you can see, there&rsquo;s one neuron (the red circle) connected to an input neuron. The line between them (\(w_0\)) represents the neuron&rsquo;s weight.</p>
-<p>Like I said before, the weight is a number between 0 and 1 that represents the strength of the connection between a neuron and it&rsquo;s inputs. More generally, a neuron&rsquo;s weight is a measure of how much its input influences its output.</p>
+<p>Like I said before, the weight is a relatively low number that represents the strength of the connection between a neuron and it&rsquo;s inputs. More generally, a neuron&rsquo;s weight is a measure of how much its input influences its output.</p>
 <hr>
 <p>Secondly, we&rsquo;ll talk about the bias.</p>
 <p><img loading="lazy" src="/posts/neural_networks_series/images/bias.png" alt="example image"  />
@@ -71,7 +71,7 @@
   </footer>
 </blockquote>
 
-<p>That&rsquo;s why we multiply the weight (which is a value between 0 and 1) by the input - because it effectively has the power to scale our input up and down.</p>
+<p>That&rsquo;s why we multiply the weight by the input - because it effectively has the power to scale our input up and down.</p>
 <p>And remember this?
 
 
@@ -128,52 +128,58 @@
 <div style="background-color: var(--entry); margin-bottom:20px; margin-top:10px; padding:10px; border-radius: var(--radius)"><em>I&rsquo;ll do most of the coding in this series in python, but if you&rsquo;re familiar with other programming languages, all the same concepts will still apply.</em></div>
 
 <p>To represent a neuron in code, we could start by creating a class that holds the neuron&rsquo;s components - mainly the neuron&rsquo;s weights and its bias.</p>
-<pre tabindex="0"><code>class Neuron:
-    def __init__(self, num_inputs):
-        // initialize self.weights
-        // initialize self.bias
-</code></pre><p>You can see in the constructor method that the class will take the number of inputs (<code>num_inputs</code>) as an argument - this is because the number of weights that we initialize depends on the number of inputs (one weight for every input).</p>
+<div class="highlight"><pre tabindex="0" style="color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">class</span> <span style="color:#8fbcbb">Neuron</span><span style="color:#eceff4">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> __init__<span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#616e87;font-style:italic"># initialize self.weights</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#616e87;font-style:italic"># initialize self.bias</span></span></span></code></pre></div>
+<p>You can see in the constructor method that the class will take the number of inputs (<code>num_inputs</code>) as an argument - this is because the number of weights that we initialize depends on the number of inputs (one weight for every input).</p>
 <p>For now, we&rsquo;ll start by initializing the weights and bias randomly.</p>
-<pre tabindex="0"><code>import numpy as np
-class Neuron:
-    def __init__(self, num_inputs):
-        self.weights = np.random.randn(num_inputs)
-        self.bias = np.random.randn()
-</code></pre><p>We can also add a method to calculate the neuron&rsquo;s value by multiplying its weights and inputs together. We&rsquo;ll use a <a href="https://en.wikipedia.org/wiki/Dot_product">dot product</a> for this. <em>If you&rsquo;re unsure about how dot products work, don&rsquo;t worry - I&rsquo;ll explain them more thoroughly in the next post</em>.</p>
-<pre tabindex="0"><code>import numpy as np
-class Neuron:
-    def __init__(self, num_inputs):
-        self.weights = np.random.randn(num_inputs)
-        self.bias = np.random.randn()
-        
-    def calculate(self, inputs):
-        return np.dot(inputs, self.weights.T) + self.bias
-</code></pre><p>You&rsquo;ll see the limitations of some of this code as we get more in-depth in the following chapters of the series, but for now, this is a good start for representing a neuron.</p>
+<div class="highlight"><pre tabindex="0" style="color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">import</span> <span style="color:#8fbcbb">numpy</span> <span style="color:#81a1c1;font-weight:bold">as</span> <span style="color:#8fbcbb">np</span>
+</span></span><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">class</span> <span style="color:#8fbcbb">Neuron</span><span style="color:#eceff4">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> __init__<span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>weights <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">(</span>num_inputs<span style="color:#eceff4">)</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>bias <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">()</span></span></span></code></pre></div>
+<p>We can also add a method to calculate the neuron&rsquo;s value by multiplying its weights and inputs together. We&rsquo;ll use a <a href="https://en.wikipedia.org/wiki/Dot_product">dot product</a> for this. <em>If you&rsquo;re unsure about how dot products work, don&rsquo;t worry - I&rsquo;ll explain them more thoroughly in the next post</em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">import</span> <span style="color:#8fbcbb">numpy</span> <span style="color:#81a1c1;font-weight:bold">as</span> <span style="color:#8fbcbb">np</span>
+</span></span><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">class</span> <span style="color:#8fbcbb">Neuron</span><span style="color:#eceff4">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> __init__<span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>weights <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">(</span>num_inputs<span style="color:#eceff4">)</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>bias <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">()</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> <span style="color:#88c0d0">calculate</span><span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> inputs<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#81a1c1;font-weight:bold">return</span> np<span style="color:#81a1c1">.</span>dot<span style="color:#eceff4">(</span>inputs<span style="color:#eceff4">,</span> self<span style="color:#81a1c1">.</span>weights<span style="color:#81a1c1">.</span>T<span style="color:#eceff4">)</span> <span style="color:#81a1c1">+</span> self<span style="color:#81a1c1">.</span>bias</span></span></code></pre></div>
+<p>You&rsquo;ll see the limitations of some of this code as we get more in-depth in the following chapters of the series, but for now, this is a good start for representing a neuron.</p>
 <p>Keep an eye out for the next post where we&rsquo;ll take a deeper dive into neuron code and representing neurons in the context of layers.</p>
 <style>
-  .toc {
-    cursor: default;
-    padding-bottom: 0;
-  }
-  .topper {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: .6em;
-    padding-top: .2em;
-  }
-  ul {
-    margin-top: .8em;
-    margin-bottom: .8em!important;
-  }
-  .nnsa {
-    box-shadow:none!important;
-  }
+    .toc {
+        cursor: default;
+        width:100%;
+        padding-left:var(--gap);
+        padding-right:var(--gap);
+        padding-top:.6em;
+    }
+    .topper {
+        border-bottom: 1px solid var(--primary);
+        padding-bottom: .6em;
+        padding-top: .2em;
+    }
+    ul {
+        margin-top: .8em;
+        margin-bottom: .8em!important;
+        padding-left:var(--gap);
+    }
+    .nnsa {
+        box-shadow:none!important;
+    }
 </style>
 <div class="toc">
     <div class="topper">Other Parts in the Neural Networks Series &nbsp; ⬇️</div>
     <ul>
+      <li><a class="nnsa" href="/posts/the-pieplatter-project">Introduction - The Pieplatter Project</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-0-bits-and-brains">Part 0 - Bits and Brains?</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-1-looking-at-layers">Part 1 - Looking at Layers</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-2-neuron-code">Part 2 - Neuron Code</a></li>
+      
     </ul>
 </div>
 
@@ -221,11 +227,8 @@ class Neuron:
 <p>Hidden layers are essentially the &ldquo;logic and reasoning&rdquo; part of the network - they take the inputs, apply some kind of computation, and then output a value to the output layer.</p>
 <p>For example, it&rsquo;s like baking bread.</p>
 <figure>
-    <img loading="lazy" src="/posts/neural_networks_series/images/bread.jpg"
-         alt="Picture of bread"/> <figcaption>
-            <p style="font-style:italic">
-                    <a href="https://www.artisanpassion.com/sourdough-rye-bread/">Image credit: artisanpassion.com</a></p>
-        </figcaption>
+    <img loading="lazy" src="/posts/neural_networks_series/images/bread.png"
+         alt="Picture of bread"/> 
 </figure>
 
 <p>The input layer is equivalent to the dough, but the dough has to go in the oven before it becomes a real loaf of bread. Otherwise, it is just a collection of ingredients that have been whisked together.</p>
@@ -236,29 +239,35 @@ class Neuron:
 <p>So that&rsquo;s the basic theory behind how a neural network takes an input and produces an output. There are more intricacies to the layers of the network, and more specific operations to determine the exact values of neurons in the network, but I&rsquo;ll get into those next time, when we actually start laying out the network&rsquo;s code.</p>
 <p><br>
 <style>
-  .toc {
-    cursor: default;
-    padding-bottom: 0;
-  }
-  .topper {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: .6em;
-    padding-top: .2em;
-  }
-  ul {
-    margin-top: .8em;
-    margin-bottom: .8em!important;
-  }
-  .nnsa {
-    box-shadow:none!important;
-  }
+    .toc {
+        cursor: default;
+        width:100%;
+        padding-left:var(--gap);
+        padding-right:var(--gap);
+        padding-top:.6em;
+    }
+    .topper {
+        border-bottom: 1px solid var(--primary);
+        padding-bottom: .6em;
+        padding-top: .2em;
+    }
+    ul {
+        margin-top: .8em;
+        margin-bottom: .8em!important;
+        padding-left:var(--gap);
+    }
+    .nnsa {
+        box-shadow:none!important;
+    }
 </style>
 <div class="toc">
     <div class="topper">Other Parts in the Neural Networks Series &nbsp; ⬇️</div>
     <ul>
+      <li><a class="nnsa" href="/posts/the-pieplatter-project">Introduction - The Pieplatter Project</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-0-bits-and-brains">Part 0 - Bits and Brains?</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-1-looking-at-layers">Part 1 - Looking at Layers</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-2-neuron-code">Part 2 - Neuron Code</a></li>
+      
     </ul>
 </div>
 
@@ -274,7 +283,7 @@ class Neuron:
       
       <guid>https://olinjohnson.github.io/posts/neural-networks-part-0-bits-and-brains/</guid>
       <description>A conceptual overview of the theory behind neural networks</description>
-      <content:encoded><![CDATA[<p>Recently, I&rsquo;ve been doing a lot of work learning about AI and neural networks–specifically by creating deep learning models from scratch. So, I thought I&rsquo;d document some of that learning in a multi-part series about deep learning.</p>
+      <content:encoded><![CDATA[<p>Recently, I&rsquo;ve been doing a lot of work learning about AI and neural networks – specifically by creating deep learning models from scratch. So, I thought I&rsquo;d document some of that learning in a multi-part series about deep learning.</p>
 <p>In case you&rsquo;re not already familiar, neural networks are AI processes that are modeled after the human brain and can solve problems by simulating human methods of learning.</p>
 <p>For example, in the same way that your brain has learned to differentiate between cats and dogs, we can also teach a neural network to classify types of pets (among other things).</p>
 <h3 id="but-how-is-a-computer-able-to-learn-like-a-person">But how is a computer able to learn like a person?</h3>
@@ -306,29 +315,35 @@ class Neuron:
 <p>Of course, this is just a brief overview of the philosophy behind neural networks and it barely even scratches the surface of their complexity. Look out for Part 1 where I&rsquo;ll go more in depth into the code required to create the foundation of a neural network.</p>
 <p><br>
 <style>
-  .toc {
-    cursor: default;
-    padding-bottom: 0;
-  }
-  .topper {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: .6em;
-    padding-top: .2em;
-  }
-  ul {
-    margin-top: .8em;
-    margin-bottom: .8em!important;
-  }
-  .nnsa {
-    box-shadow:none!important;
-  }
+    .toc {
+        cursor: default;
+        width:100%;
+        padding-left:var(--gap);
+        padding-right:var(--gap);
+        padding-top:.6em;
+    }
+    .topper {
+        border-bottom: 1px solid var(--primary);
+        padding-bottom: .6em;
+        padding-top: .2em;
+    }
+    ul {
+        margin-top: .8em;
+        margin-bottom: .8em!important;
+        padding-left:var(--gap);
+    }
+    .nnsa {
+        box-shadow:none!important;
+    }
 </style>
 <div class="toc">
     <div class="topper">Other Parts in the Neural Networks Series &nbsp; ⬇️</div>
     <ul>
+      <li><a class="nnsa" href="/posts/the-pieplatter-project">Introduction - The Pieplatter Project</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-0-bits-and-brains">Part 0 - Bits and Brains?</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-1-looking-at-layers">Part 1 - Looking at Layers</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-2-neuron-code">Part 2 - Neuron Code</a></li>
+      
     </ul>
 </div>
 
