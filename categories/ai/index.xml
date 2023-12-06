@@ -5,7 +5,122 @@
     <link>https://olinjohnson.github.io/categories/ai/</link>
     <description>Recent content in AI on Olin Johnson</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 20 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/ai/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://olinjohnson.github.io/categories/ai/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Neural Networks Part 3: Neurons to Layers</title>
+      <link>https://olinjohnson.github.io/posts/neural-networks-part-3-neurons-to-layers/</link>
+      <pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://olinjohnson.github.io/posts/neural-networks-part-3-neurons-to-layers/</guid>
+      <description>Extrapolating neuron code to layers for added efficiency and scale of the network</description>
+      <content:encoded><![CDATA[<div style="background-color: var(--entry); margin-bottom:20px; margin-top:10px; padding:10px; border-radius: var(--radius)"><em>If you haven&rsquo;t been following along with the previous posts in this neural networks series, I highly recommend reading those before continuing forward.</em></div>
+
+<p>At this point in the series, we&rsquo;ve talked about layers, and we&rsquo;ve talked about coding neurons. Now, we&rsquo;re going to scale up the neuron code to be applicable for layers of the network, to make it more customizable and functional.</p>
+<h3 id="why-are-we-doing-this">Why are we doing this?</h3>
+<p>The reason we can&rsquo;t just take the neuron code from <a href="/posts/neural-networks-part-2-neuron-code">Part 2</a> and move forward is because it isn&rsquo;t really practical in the context of our network. If you recall, we created a class for each neuron in the network, but with neural networks getting increasingly large (most networks have thousands to millions of neurons), it&rsquo;s simply too tedious and too slow to instantiate a new instance of the class for each neuron in the network. That approach might be manageable for the simple 6-neuron example network I presented, but it won&rsquo;t be realistic for larger-scale networks with practical functionality.</p>
+<p>Thus, we need to scale our neuron code to work with layers in our network.</p>
+<h3 id="what-are-we-going-to-do-instead">What are we going to do instead?</h3>
+<p>Well, instead of having a class for each neuron in the network, it would be more realistic to define a class that represents each layer in the network.</p>
+<p>Remember, networks can have any number of hidden layers, so by creating a class to represent network layers, we can make our network functional, practical, and scalable.</p>
+<h3 id="alright-how-is-this-going-to-work">Alright, how is this going to work?</h3>
+<p>Well, in order to move forward, we&rsquo;re going to need to change up how we&rsquo;ve been thinking. We&rsquo;ll need to start using matrices to describe things like weights and biases.</p>
+<p>For example, consider the following model:</p>
+<p><img loading="lazy" src="/posts/neural_networks_series/images/big_net_model.png" alt="example image"  />
+</p>
+<p>Notice how each neuron has 2 weights. Remember that each weight is just a number, so we can give each neuron its own weight vector to keep track of them.</p>
+<p>For example, the weight vector of the neuron \(y_1\) would be</p>
+<p>$$\begin{bmatrix}w_2 &amp; w_3\end{bmatrix}$$</p>
+<p>Because those are the weights that connect the neuron to its inputs.</p>
+<p>Fortunately, since each neuron only has 1 bias, we don&rsquo;t need to use a vector to represent the bias. We can reference the neuron&rsquo;s bias using the notation \(b_n\), where \(n\) is the corresponding numbered neuron.</p>
+<hr>
+<h3 id="writing-the-layer-class">Writing the <code>Layer</code> class</h3>
+<p>Now that we&rsquo;ve covered how to represent the neurons&rsquo; weights and biases (you&rsquo;ll see why in a minute), we can start writing the code for the <code>Layer</code> class. We&rsquo;ll start by declaring a very basic constructor method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">class</span> <span style="color:#8fbcbb">Layer</span><span style="color:#eceff4">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> __init__<span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">,</span> num_neurons<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#616e87;font-style:italic"># ...</span></span></span></code></pre></div>
+<p>You&rsquo;ll notice that the class takes two arguments: <code>num_inputs</code>, for the number of input neurons, and <code>num_neurons</code>, for the number of neurons in the layer.</p>
+<p>We need <code>num_inputs</code> to define the right number of weights per neuron in the layer, and we need <code>num_neurons</code> to know the right number of neurons that we need to define weights for.</p>
+<p>The reason we need these parameters is to create a <strong>weight matrix</strong>. This is essentially a vector of all the neurons&rsquo; weights. For instance, since each neuron&rsquo;s weights are represented by a vector, to represent the weights of all the neurons in the layer, we would need a vector of those vectors, or a <strong>matrix</strong>.</p>
+<p>For example, the weight matrix of the model from above would be:</p>
+<p>$$
+\begin{bmatrix}
+w_0 &amp; w_1 \\
+w_2 &amp; w_3 \\
+w_4 &amp; w_5
+\end{bmatrix}
+$$</p>
+<p>You can see how each row in the matrix represents a neuron, and each column represents one of the neuron&rsquo;s weights. Thus, the number of rows in the matrix is equal to the number of neurons, and the number of columns is equal to the number of weights per neuron, which is equal to the total number of inputs.</p>
+<p>Making sense?</p>
+<p>So, now we can randomly initialize all the weights for our neurons at once by creating a matrix with dimensions <code>num_neurons</code> * <code>num_inputs</code>. Check out the following code:</p>
+<p><div class="highlight"><pre tabindex="0" style="color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">class</span> <span style="color:#8fbcbb">Layer</span><span style="color:#eceff4">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> __init__<span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">,</span> num_neurons<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>weights <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">(</span>num_neurons<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#616e87;font-style:italic"># ...</span></span></span></code></pre></div>
+
+
+<div style="font-size:12pt; font-style:italic; background-color: var(--entry); margin-bottom:20px; margin-top:10px; padding:10px; border-radius: var(--radius)">
+Note: np.random.randn() is a numpy function that returns samples from a <a href="https://en.wikipedia.org/wiki/Normal_distribution">standard normal distribution</a>. By passing matrix dimensions as arguments, the function is able to populate an entire matrix with random values. You can view the documentation for np.random.randn() <a href="https://numpy.org/doc/stable/reference/random/generated/numpy.random.randn.html">here</a>.
+</div>
+</p>
+<p>We can do something similar with the biases, though we only need a vector to hold all the biases for the layer because each neuron only has one bias.</p>
+<div class="highlight"><pre tabindex="0" style="color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">class</span> <span style="color:#8fbcbb">Layer</span><span style="color:#eceff4">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> __init__<span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">,</span> num_neurons<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>weights <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">(</span>num_neurons<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">)</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>biases <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">(</span>num_neurons<span style="color:#eceff4">)</span></span></span></code></pre></div>
+<h3 id="calculating-neuron-values-and-code">Calculating neuron values (and code!)</h3>
+<p>By representing weights, inputs, and biases using matrices like above, we can speed up the network significantly and calculate the values of every neuron at once, instead of individually like we were doing in <a href="/posts/neural-networks-part-2-neuron-code">part 2</a>.</p>
+<p>To do this, we can find the <a href="https://www.mathsisfun.com/algebra/vectors-dot-product.html">dot product</a> of the inputs and weights.</p>
+<p>$$ X = I * W + B $$</p>
+<div style="background-color: var(--entry); margin-bottom:20px; margin-top:10px; padding:10px; border-radius: var(--radius)">Note: in the future, I&rsquo;ll write a more in-depth post on what a dot product is, how to compute a dot product, and their application in neural networks, but for now, I think the <a href="https://www.mathsisfun.com/algebra/vectors-dot-product.html">mathisfun guide</a> does a pretty good job explaining.</div>
+
+<p>We can represent this in code by defining a method to our <code>Layer</code> class that returns the dot product of its inputs and weights (and adds the biases) using the numpy function <code>np.dot()</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#81a1c1;font-weight:bold">class</span> <span style="color:#8fbcbb">Layer</span><span style="color:#eceff4">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> __init__<span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">,</span> num_neurons<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>weights <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">(</span>num_neurons<span style="color:#eceff4">,</span> num_inputs<span style="color:#eceff4">)</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#81a1c1">.</span>biases <span style="color:#81a1c1">=</span> np<span style="color:#81a1c1">.</span>random<span style="color:#81a1c1">.</span>randn<span style="color:#eceff4">(</span>num_neurons<span style="color:#eceff4">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#81a1c1;font-weight:bold">def</span> <span style="color:#88c0d0">calc_neuron_outputs</span><span style="color:#eceff4">(</span>self<span style="color:#eceff4">,</span> inputs<span style="color:#eceff4">):</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#616e87;font-style:italic"># assert len(inputs) == len(biases)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#81a1c1;font-weight:bold">return</span> np<span style="color:#81a1c1">.</span>dot<span style="color:#eceff4">(</span>inputs<span style="color:#eceff4">,</span> self<span style="color:#81a1c1">.</span>weights<span style="color:#eceff4">)</span> <span style="color:#81a1c1">+</span> self<span style="color:#81a1c1">.</span>biases</span></span></code></pre></div>
+<p>As you can see, the method <code>Layer.calc_neuron_outputs()</code> takes a number of inputs (one for each neuron in the layer) and returns a matrix with all the output values of the neurons by computing the dot product of the inputs and weights, and then adding the biases.</p>
+<p>That&rsquo;s as far as I&rsquo;ll go for now, but keep an eye out for future posts where we&rsquo;ll dig a little deeper into dot products, batches of inputs, and activation functions.</p>
+<style>
+    .toc {
+        cursor: default;
+        width:100%;
+        padding-left:var(--gap);
+        padding-right:var(--gap);
+        padding-top:.6em;
+    }
+    .topper {
+        border-bottom: 1px solid var(--primary);
+        padding-bottom: .6em;
+        padding-top: .2em;
+    }
+    ul {
+        margin-top: .8em;
+        margin-bottom: .8em!important;
+        padding-left:var(--gap);
+    }
+    .nnsa {
+        box-shadow:none!important;
+    }
+</style>
+<div class="toc">
+    <div class="topper">Other Parts in the Neural Networks Series &nbsp; ⬇️</div>
+    <ul>
+      <li><a class="nnsa" href="/posts/the-pieplatter-project">Introduction - The Pieplatter Project</a></li>
+      <li><a class="nnsa" href="/posts/neural-networks-part-0-bits-and-brains">Part 0 - Bits and Brains?</a></li>
+      <li><a class="nnsa" href="/posts/neural-networks-part-1-looking-at-layers">Part 1 - Looking at Layers</a></li>
+      <li><a class="nnsa" href="/posts/neural-networks-part-2-neuron-code">Part 2 - Neuron Code</a></li>
+      <li><a class="nnsa" href="/posts/neural-networks-part-3-neurons-to-layers">Part 3 - Neurons to Layers</a></li>
+    </ul>
+</div>
+
+
+
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Neural Networks Part 2: Neuron Code</title>
       <link>https://olinjohnson.github.io/posts/neural-networks-part-2-neuron-code/</link>
@@ -179,7 +294,7 @@
       <li><a class="nnsa" href="/posts/neural-networks-part-0-bits-and-brains">Part 0 - Bits and Brains?</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-1-looking-at-layers">Part 1 - Looking at Layers</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-2-neuron-code">Part 2 - Neuron Code</a></li>
-      
+      <li><a class="nnsa" href="/posts/neural-networks-part-3-neurons-to-layers">Part 3 - Neurons to Layers</a></li>
     </ul>
 </div>
 
@@ -267,7 +382,7 @@
       <li><a class="nnsa" href="/posts/neural-networks-part-0-bits-and-brains">Part 0 - Bits and Brains?</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-1-looking-at-layers">Part 1 - Looking at Layers</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-2-neuron-code">Part 2 - Neuron Code</a></li>
-      
+      <li><a class="nnsa" href="/posts/neural-networks-part-3-neurons-to-layers">Part 3 - Neurons to Layers</a></li>
     </ul>
 </div>
 
@@ -343,7 +458,7 @@
       <li><a class="nnsa" href="/posts/neural-networks-part-0-bits-and-brains">Part 0 - Bits and Brains?</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-1-looking-at-layers">Part 1 - Looking at Layers</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-2-neuron-code">Part 2 - Neuron Code</a></li>
-      
+      <li><a class="nnsa" href="/posts/neural-networks-part-3-neurons-to-layers">Part 3 - Neurons to Layers</a></li>
     </ul>
 </div>
 
@@ -393,7 +508,7 @@
       <li><a class="nnsa" href="/posts/neural-networks-part-0-bits-and-brains">Part 0 - Bits and Brains?</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-1-looking-at-layers">Part 1 - Looking at Layers</a></li>
       <li><a class="nnsa" href="/posts/neural-networks-part-2-neuron-code">Part 2 - Neuron Code</a></li>
-      
+      <li><a class="nnsa" href="/posts/neural-networks-part-3-neurons-to-layers">Part 3 - Neurons to Layers</a></li>
     </ul>
 </div>
 
